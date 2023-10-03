@@ -1,0 +1,4 @@
+# Ignora los archivos relacionados a API keys
+.env
+venv
+__pycache__
