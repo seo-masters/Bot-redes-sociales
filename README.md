@@ -1,4 +1,4 @@
-#genera las dependecias automaticamente
+##genera las dependecias automaticamente
 pip freeze > requirements.txt
 
 #Crear entorno virtual
