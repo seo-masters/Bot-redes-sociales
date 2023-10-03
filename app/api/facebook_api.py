@@ -12,20 +12,3 @@ class FacebookAPI:
         except facebook.GraphAPIError as e:
             return False, f"Error al publicar en el muro: {e}"
 
-# Ejemplo de cómo usarlo
-if __name__ == "__main__":
-    # Token de acceso de Facebook
-    access_token = 'bv'
-
-    # Crea una instancia de la clase FacebookAPI
-    facebook_api = FacebookAPI(access_token)
-
-    # Mensaje que deseas publicar
-    message = "Post Hecho con API Version 4"
-
-    # Realiza la publicación en el muro
-    success, message = facebook_api.publicar_en_muro(message)
-    if success:
-        print(message)
-    else:
-        print(message)
