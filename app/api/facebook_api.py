@@ -15,7 +15,7 @@ class FacebookAPI:
 # Ejemplo de cómo usarlo
 if __name__ == "__main__":
     # Token de acceso de Facebook
-    access_token = 'tu_access_token'
+    access_token = 'bv'
 
     # Crea una instancia de la clase FacebookAPI
     facebook_api = FacebookAPI(access_token)
