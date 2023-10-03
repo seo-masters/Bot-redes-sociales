@@ -1,6 +1,7 @@
 import tkinter as tk
 from api.facebook_api import FacebookAPI
 from api.openai_api import OpenAIClient
+from api.facebook2 import FacebookAPI2
 
 
 class MiVentanaPrincipal(tk.Frame):
@@ -22,7 +23,7 @@ class MiVentanaPrincipal(tk.Frame):
         self.otro_button.pack()
 
         # Botón "Pruebas" para realizar alguna otra acción
-        self.otro_button = tk.Button(self, text="Facebook2", command=self.ejecutar_openai_api)
+        self.otro_button = tk.Button(self, text="Facebook2", command=self.generar_token)
         self.otro_button.pack()
 
     def ejecutar_openai_api(self):
@@ -35,13 +36,13 @@ class MiVentanaPrincipal(tk.Frame):
     def ejecutar_facebook_api(self):
         # Ejecutar publicacion
         #obtenerData()
-        access_token = 'EAAKVB5aG3ZC8BO1bBPZAF8wNUZCngE9Hk9eB0jQt87FTECTPYJVDB6wfZC7TlP1ZBQef44g9sPq3MaPyiEdtFXoAX9jsMVP0PGkZArDND3c89MiKM01xQn5hnoYCcPBOSmd1QPMud6ZA7A9ZCBlyLlyUmAFp78gry0T9vTPPi0188ZBSaYwKyjIK4pp70OScXAfnaqNsLVl2v4KmuzJK48i3ibeE7GXSVh5oZD'
+        access_token = 'EAAKVB5aG3ZC8BO1gTpc7bnqb8MsZAE0zv0MGZAZCZC03lxdg7UpffyfCQQl5NyKXIoEvzDSnRHZCaraQAijNxLarYQkbfZAw47YbLUhVXZB8EaFZBnWNZCuYCVhftaZBkSOUJwjc3T4g5ZAA17S6o3NADCx9kNonWlZC7HozK6Ish8LvIogCYTXzI4zcOcUkeCPU1XefocWZAWs98dmK0t8i1jrA4rp0uMFW45xQgZD'
 
         # Crea una instancia de la clase FacebookAPI
         facebook_api = FacebookAPI(access_token)
 
         # Mensaje que deseas publicar
-        message = "Hola mundo api Python"
+        message = "Hola mundo api Python 6pm"
 
         # Realiza la publicación en el muro
         success, message = facebook_api.publicar_en_muro(message)
@@ -50,6 +51,9 @@ class MiVentanaPrincipal(tk.Frame):
         else:
             print(message)
 
+    def generar_token(self):
+        facebook_3 = FacebookAPI2("149414758247584","0d235772323370d051639fab3b59bbd5","EAAKVB5aG3ZC8BO23zrQFjix4cIDDMj1fgRqmuOBlQmRnuYlph6STjHAI9xuonIczsixnl8jj8WdNwxbC7K0eArpSZBxlSpz3jnBQsDgSmK9ZCQxsAAazdpInHCUiQYhJjBi9GYuiOXFjtia4IASHpWHWMgk2GXNTSV5XQkXJLZAZCBxacbZAuILavrqt3XgBN2rwYUzaBmfJZBPAB3ZAAhMSfZBcXEwZDZD")
+        facebook_3.publicar_en_muro("publicar_en_muro")
         
 
 # Ejemplo de cómo se podría ejecutar la ventana principal
