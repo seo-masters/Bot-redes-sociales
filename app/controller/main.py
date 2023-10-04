@@ -60,10 +60,16 @@ class Controller:
             success, datos = photo.search(title_photo)
             if success:
                 for photo in datos:
-                    print(photo.url)
+                    print(photo.url,photo.alt)
             else:
                 print(datos)
         except Exception as e:
             print(e)
         else:
             return datos
+
+
+    def post_to_facebook_page(self):
+       facebook = FacebookAPI("")
+       rta = facebook.get_facebook_code()
+       print(rta)

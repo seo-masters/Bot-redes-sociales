@@ -34,3 +34,4 @@ class Photo:
     def __init__(self, data):
         self.id = data["id"]
         self.url = data["url"]
+        self.alt = data["alt"]

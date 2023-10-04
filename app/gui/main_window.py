@@ -26,6 +26,12 @@ class MiVentanaPrincipal(tk.Frame):
         )
         self.run_button.pack()
 
+        #Btn Publicar post en pagina de facebook
+        self.run_button = tk.Button(
+            self, text="Publicar en Pagina de Facebook", command=self.controlador.post_to_facebook_page,
+        )
+        self.run_button.pack()
+
 
 # Ejemplo de cómo se podría ejecutar la ventana principal
 if __name__ == "__main__":
