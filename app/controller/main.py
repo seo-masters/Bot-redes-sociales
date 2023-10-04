@@ -57,9 +57,12 @@ class Controller:
         title_photo = self.ejecutar_openai_api()
         photo = PexelsAPI()
         try:
-            datos = photo.search(title_photo)
-            for photo in datos:
-                print(photo.url)
+            success, datos = photo.search(title_photo)
+            if success:
+                for photo in datos:
+                    print(photo.url)
+            else:
+                print(datos)
         except Exception as e:
             print(e)
         else:
