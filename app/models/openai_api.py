@@ -10,7 +10,7 @@ class OpenAIClient:
             response = openai.Completion.create(
                 engine="text-davinci-002",
                 prompt=input_message,
-                max_tokens=50
+                max_tokens=100
             )
             resp = response.choices[0].text.strip()
             print(f"Mensaje generado: {resp}")
