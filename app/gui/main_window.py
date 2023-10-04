@@ -16,7 +16,7 @@ class MiVentanaPrincipal(tk.Frame):
 
         # Botón "Run" para obtener información del perfil de Facebook
         self.run_button = tk.Button(
-            self, text="Run", command=self.controlador.ejecutar_facebook_api,
+            self, text="Publicar post mensaje motivacional", command=self.controlador.ejecutar_facebook_api,
         )
         self.run_button.pack()
 
@@ -28,7 +28,7 @@ class MiVentanaPrincipal(tk.Frame):
 
         #Btn Publicar post en pagina de facebook
         self.run_button = tk.Button(
-            self, text="Publicar en Pagina de Facebook", command=self.controlador.post_to_facebook_page,
+            self, text="Publicar en Pagina de Facebook foto", command=self.controlador.post_to_facebook_page,
         )
         self.run_button.pack()
 

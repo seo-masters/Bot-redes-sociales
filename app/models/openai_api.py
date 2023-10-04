@@ -12,7 +12,9 @@ class OpenAIClient:
                 prompt=input_message,
                 max_tokens=50
             )
-            return response.choices[0].text
+            resp = response.choices[0].text.strip()
+            print(f"Mensaje generado: {resp}")
+            return resp
         except Exception as e:
             return str(e)
 
