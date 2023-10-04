@@ -81,6 +81,9 @@ class Controller:
         #app_secret_key = "0d235772323370d051639fab3b59bbd5"
         facebook = FacebookAPI()
         try:
+            
+            access_token = facebook.facebook_post_photo()
+
             #access_token = facebook.get_facebook_code(application_id,app_secret_key)
             #rta = facebook.facebook_post_me("149414758247584", "Dura 3 meses", access_token)
             rta2 = facebook.facebook_post_photo_from_url("149414758247584","https://images.pexels.com/photos/6590699/pexels-photo-6590699.jpeg?auto=compress&cs=tinysrgb&dpr=1&fit=crop&h=200&w=280")

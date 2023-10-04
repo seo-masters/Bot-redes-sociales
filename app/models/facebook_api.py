@@ -49,17 +49,33 @@ class FacebookAPI:
             print("Ocurrió un error al publicar el mensaje:", e)
 
 
-    def facebook_post_photo(self, page_id, photo_file, access_token):
+    def facebook_post_photo(self):
         # Crea una instancia del objeto de la API de Facebook
-        graph = facebook.GraphAPI("EAAKVB5aG3ZC8BOZBSpKYXbUD44KCuPk4WZCRWoYjw7ZCVp6izPBgMV14HBOZBEQtI7ScOLwzJqqB3mVtZCZArEN2qViNvJDZAVzDhs4pzlxU9uKEZC259ZB93Gk4ZAkTH4ReZAp6ZBancZBd7d35msNsLhAzCJgTZBiZCPyGZACUcHyE5rOBRiZB2WvuufrMlck4q0NGLKA15GkTMlwRQZD")
+        graph = facebook.GraphAPI(self.access_token)
 
-        # Carga la foto en la página
-        try:
-            rta = graph.put_photo(page_id, photo_file)
-            print("Foto cargada con éxito en la página.")
-            return rta
-        except facebook.GraphAPIError as e:
-            print("Ocurrió un error al cargar la foto:", e)
+        # ID de la página en la que deseas publicar (puedes encontrarlo en la URL de la página)
+        page_id = '149414758247584'
+
+        # Mensaje que deseas incluir junto con la foto
+        message = '¡Aquí está mi foto con un mensaje!'
+
+        # Ruta al archivo de la foto que deseas cargar
+        photo_path = 'C:/Users/USER/Downloads/42w35.jpg'
+
+        # Carga la foto en la página y obtén el ID de la foto cargada
+        photo = graph.put_photo(image=open(photo_path, 'rb'), album_path=page_id + "/photos")
+        photo_id = photo['id']
+
+        # Publica el mensaje en la página junto con la foto
+        graph.put_object(page_id, "feed", message=message, attached_media=[{'media_fbid': photo_id}])
+
+        print("Foto y mensaje publicados con éxito en la página.")
+
+
+
+
+
+
 
 
     def facebook_post_photo_from_url(self, page_id, photo_url):
