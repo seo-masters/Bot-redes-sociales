@@ -1,4 +1,5 @@
 import openai
+import re
 
 class OpenAIClient:
     def __init__(self, api_key):
@@ -13,6 +14,9 @@ class OpenAIClient:
                 max_tokens=100
             )
             resp = response.choices[0].text.strip()
+            resp = re.sub(r'[ \t,.!;:]+', ' ', resp.strip())
+            resp = resp.replace('"', '')  # Elimina comillas dobles
+            resp = resp.replace("'", '')  # Elimina comillas simples
             print(f"Mensaje generado: {resp}")
             return resp
         except Exception as e:

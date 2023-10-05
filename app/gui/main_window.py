@@ -1,5 +1,6 @@
 import tkinter as tk
 from controller.main import Controller
+from controller.selenium import Automate
 
 
 class MiVentanaPrincipal(tk.Frame):
@@ -28,7 +29,19 @@ class MiVentanaPrincipal(tk.Frame):
 
         #Btn Publicar post en pagina de facebook
         self.run_button = tk.Button(
-            self, text="Publicar en Pagina de Facebook foto", command=self.controlador.post_to_facebook_page,
+            self, text="Publicar en Pagina de Facebook foto local", command=self.controlador.post_to_facebook_page_local_image,
+        )
+        self.run_button.pack()
+
+        #Btn Publicar post en pagina de facebook
+        self.run_button = tk.Button(
+            self, text="Publicar en Pagina de Facebook foto url", command=self.controlador.post_to_facebook_page_url,
+        )
+        self.run_button.pack()
+
+        #Btn Publicar post en pagina de facebook
+        self.run_button = tk.Button(
+            self, text="Selenium", command=self.controlador.prueba
         )
         self.run_button.pack()
 
