@@ -46,7 +46,7 @@ class Controller:
         )
         self.facebook_api = FacebookAPI()
         try:
-            success, result = self.facebook_api.publicar_en_muro(mesaje_amor)
+            success, result = self.facebook_api.facebook_post(mesaje_amor)
             if success:
                 print(result)
             return success, result
@@ -54,12 +54,8 @@ class Controller:
             print(f"Error al publicar en Facebook: {e}")
 
     def generar_token_facebook(self):
-        facebook_3 = FacebookAPI2(
-            "149414758247584",
-            "0d235772323370d051639fab3b59bbd5",
-            "EAAKVB5aG3ZC8BO23zrQFjix4cIDDMj1fgRqmuOBlQmRnuYlph6STjHAI9xuonIczsixnl8jj8WdNwxbC7K0eArpSZBxlSpz3jnBQsDgSmK9ZCQxsAAazdpInHCUiQYhJjBi9GYuiOXFjtia4IASHpWHWMgk2GXNTSV5XQkXJLZAZCBxacbZAuILavrqt3XgBN2rwYUzaBmfJZBPAB3ZAAhMSfZBcXEwZDZD",
-        )
-        self.facebook_3 = facebook_3
+        return "gato"
+        
 
     def prueba(self):
         nave = Automate()
@@ -81,28 +77,6 @@ class Controller:
         else:
             return datos
 
-    def post_to_facebook_page_local_image(self):
-        openai_client = OpenAIClient(
-            "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"
-        )
-        data = Get_credentials()
-        keys = data.get_users_facebook("8hrer3w7hmwozou")
-        key_word = keys["key_word"]
-        print(key_word)
-        titulo_img = openai_client.generar_texto(
-            f"**Dame un mensaje un titulo basado en estas palabras claves: {key_word}**"
-        )
-        print(f"titulo a buscar imagenes {titulo_img}")
-        # messese = openai_client.generar_texto(f"**Dame un mensaje para un post en una red social que va a tener una imagen**: {titulo_img}")
-        facebook = FacebookAPI()
-        try:
-            access_token = facebook.facebook_post_photo(
-                keys["page_id"], "C:/Users/USER/Downloads/b2.jpg", titulo_img
-            )
-            print(access_token)
-        except Exception as e:
-            print(e)
-
     def post_to_facebook_page_url(self):
         """Publica una imagen en una página de Facebook."""
 
@@ -119,12 +93,11 @@ class Controller:
             f"**Dame un mensaje un titulo basado en estas palabras claves: {key_word}**"
         )
         sucess, img_url = photo.search_photo(titulo_img)
-        img_url = "https://img.freepik.com/foto-gratis/pareja-haciendo-corazon-manos-orilla-mar_23-2148019887.jpg"
         if sucess:
             imagen_url = self.download_image_url(img_url, "photo.jpg")
             # Publica la imagen en la página de Facebook
             facebook = FacebookAPI()
-            access_token = facebook.facebook_post_photo(keys["page_id"], imagen_url, titulo_img)
+            access_token = facebook.facebook_post(keys["page_id"], titulo_img, imagen_url)
             print(access_token)
         # Descarga la imagen de la URL especificada
         else:
@@ -137,4 +110,6 @@ class Controller:
         with open(filename, "wb") as f:
             f.write(response.content)
         return filename
+    
+
 

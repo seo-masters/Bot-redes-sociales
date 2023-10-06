@@ -39,6 +39,7 @@ class PexelsAPI:
                 f"{self.api_url}/search?query={query}&per_page=1&page=1",
                 headers=headers,
             )
+            print(response)
             if response.status_code == 200:
                 data = response.json()
                 photo = data['photos'][0]['src']['original']

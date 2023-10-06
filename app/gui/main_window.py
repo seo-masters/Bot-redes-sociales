@@ -29,7 +29,7 @@ class MiVentanaPrincipal(tk.Frame):
 
         #Btn Publicar post en pagina de facebook
         self.run_button = tk.Button(
-            self, text="Publicar en Pagina de Facebook foto local", command=self.controlador.post_to_facebook_page_local_image,
+            self, text="Token Facebook", command=self.btn_token_facebook,
         )
         self.run_button.pack()
 
@@ -44,6 +44,17 @@ class MiVentanaPrincipal(tk.Frame):
             self, text="Selenium", command=self.controlador.prueba
         )
         self.run_button.pack()
+
+        # Etiqueta para mostrar más información sobre el botón 0
+        self.info_label = tk.Label(
+            self, text="Información adicional"
+        )
+        self.info_label.pack(side=tk.BOTTOM)
+    
+    def btn_token_facebook(self):
+        print("hola mundo")
+        rta = self.controlador.generar_token_facebook()
+        self.info_label['text'] = f"Rta: {rta}"
 
 
 # Ejemplo de cómo se podría ejecutar la ventana principal

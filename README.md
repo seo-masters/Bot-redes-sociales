@@ -26,3 +26,53 @@ Instalar las dependencias
 Una vez que hayas activado el entorno virtual, puedes instalar las dependencias del proyecto con el comando pip install -r requirements.txt.
 
 pip install -r requirements.txt
+
+
+
+
+
+facebook_post()
+
+Descripción:
+
+La función facebook_post() publica un mensaje en una página de Facebook.
+
+Argumentos:
+
+page_id: El ID de la página de Facebook donde se publicará el mensaje.
+message: El mensaje que se publicará.
+link_photo: La URL de una foto que se adjuntará al mensaje.
+Retorno:
+
+Si se adjunta una foto al mensaje, se devuelve el ID de la foto.
+Si no se adjunta una foto al mensaje, se devuelve el ID del mensaje.
+Explicación:
+
+La función primero crea una instancia del objeto de la API de Facebook usando el token de acceso del usuario.
+
+Si se adjunta una foto al mensaje, la función llama al método put_photo() del objeto de la API de Facebook para subir la foto a la página. Luego, la función llama al método put_object() del objeto de la API de Facebook para publicar el mensaje junto con la foto.
+
+Si no se adjunta una foto al mensaje, la función llama directamente al método put_object() del objeto de la API de Facebook para publicar el mensaje.
+
+Ejemplos:
+
+Python
+# Publica un mensaje en una página de Facebook sin foto
+facebook_post(page_id="1234567890", message="Este es un mensaje.")
+
+# Publica un mensaje en una página de Facebook con una foto
+facebook_post(
+    page_id="1234567890",
+    message="Este es un mensaje con una foto.",
+    link_photo="https://example.com/imagen.png",
+)
+Use code with caution. Learn more
+Errores:
+
+La función puede generar los siguientes errores:
+
+facebook.GraphAPIError: Se produjo un error al llamar a la API de Facebook.
+Notas:
+
+La función requiere un token de acceso de Facebook para publicar mensajes en páginas de Facebook.
+La función solo puede publicar mensajes en páginas de Facebook a las que el usuario tiene acceso.
