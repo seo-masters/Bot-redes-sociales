@@ -1,14 +1,17 @@
-import json
 import facebook
 import requests
-
+import webbrowser
+import http.server
+import socketserver
+import threading
 
 class FacebookAPI:
     def __init__(
         self,
-        access_token="EAAKVB5aG3ZC8BOZBSpKYXbUD44KCuPk4WZCRWoYjw7ZCVp6izPBgMV14HBOZBEQtI7ScOLwzJqqB3mVtZCZArEN2qViNvJDZAVzDhs4pzlxU9uKEZC259ZB93Gk4ZAkTH4ReZAp6ZBancZBd7d35msNsLhAzCJgTZBiZCPyGZACUcHyE5rOBRiZB2WvuufrMlck4q0NGLKA15GkTMlwRQZD",
+        access_token="EAAKVB5aG3ZC8BO6aJXsCfr1ZCaQpFZCCyyoToRhpfyofyoCQAZCENA1grnKauuM1aleFYsDDnmC9Pqw0Y5grHF1QskTmQ07ffkzspV9tdOg3Gm1aBjzS390ss7nVjFOfdE38R7GmyqDh0azfGZCwiuQ8eflLvxZCipMm94yVHQPy408BAQpXeQNjSH32Kf2n8IhDaKQkGOZBeTTwmVEabZB7DQQUGHs1QW8ZD",
     ):
         self.access_token = access_token
+        self.server = None
 
     def get_facebook_code(self, client_id, client_secret):
         try:
@@ -53,3 +56,25 @@ class FacebookAPI:
                 return rta
             except facebook.GraphAPIError as e:
                 print("Ocurrió un error al publicar el mensaje:", e)
+
+    def authenticate_facebook(self):
+        # Inicia el servidor temporal en un hilo
+        server_thread = threading.Thread(target=self.iniciar_servidor)
+        server_thread.start()
+
+        PORT = 8080
+        #ID de tu aplicación de Facebook
+        APP_ID = '726809776152575'
+        # Construye la URL de inicio de sesión de Facebook
+        auth_url = f'https://www.facebook.com/v10.0/dialog/oauth?client_id={APP_ID}&redirect_uri=http://localhost:{PORT}/&scope=email,user_posts,user_posts'
+
+        # Abre una ventana del navegador para que el usuario inicie sesión en Facebook
+        webbrowser.open(auth_url)
+
+    
+    def iniciar_servidor():
+        # Puerto para el servidor temporal
+        PORT = 8080
+        Handler = http.server.SimpleHTTPRequestHandler
+        with socketserver.TCPServer(("", PORT), Handler) as httpd:
+            httpd.serve_forever()

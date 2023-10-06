@@ -6,6 +6,8 @@ from models.facebook2 import FacebookAPI2
 from models.pexels_api import PexelsAPI
 from models.api.credentials import Get_credentials
 from controller.selenium import Automate
+from models.pixabay_api import PixabayAPI
+
 
 class Controller:
     def __init__(self):
@@ -54,13 +56,15 @@ class Controller:
             print(f"Error al publicar en Facebook: {e}")
 
     def generar_token_facebook(self):
-        return "gato"
-        
+        facebook = FacebookAPI()
+        rta = facebook.authenticate_facebook()
+        return rta
 
     def prueba(self):
         nave = Automate()
-        nave.open_broser("https://cdn.pixabay.com/photo/2023/08/13/17/54/drone-8188144_1280.jpg")
-        
+        nave.open_broser(
+            "https://cdn.pixabay.com/photo/2023/08/13/17/54/drone-8188144_1280.jpg"
+        )
 
     def get_photo_pexels(self):
         title_photo = self.ejecutar_openai_api()
@@ -84,32 +88,43 @@ class Controller:
             "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"
         )
         photo = PexelsAPI()
+        photo2 = PixabayAPI()
 
         data = Get_credentials()
-        keys = data.get_users_facebook("8hrer3w7hmwozou")
+        keys = data.get_users_facebook("qpodqrba2at0mek")
         key_word = keys["key_word"]
+        print(keys["name"])
 
-        titulo_img = openai_client.generar_texto(
-            f"**Dame un mensaje un titulo basado en estas palabras claves: {key_word}**"
+        post_img = openai_client.chatGpt(
+            input=f"**Dame un mensaje para un post en facebook utiliza alguna de estas palabras -no mezcles todas las palabras- maximo 20 palabras: {key_word}**"
         )
-        sucess, img_url = photo.search_photo(titulo_img)
+        titulo_img = openai_client.chatGpt(
+            f"Por favor, dame solo 2 palabras relacionadas: en ingles {post_img}"
+        )
+        print(f"buscando imagenes: {titulo_img}")
+        # sucess, img_url = photo.search_photo(titulo_img)
+        titulo_img = titulo_img.replace("[^a-zA-Z0-9]", "").replace(",", "")
+       
+        sucess, img_url = photo2.get_images("car")
+        print(img_url)
+
         if sucess:
             imagen_url = self.download_image_url(img_url, "photo.jpg")
             # Publica la imagen en la página de Facebook
-            facebook = FacebookAPI()
-            access_token = facebook.facebook_post(keys["page_id"], titulo_img, imagen_url)
+            facebook = FacebookAPI(keys["access_token"])
+            access_token = facebook.facebook_post(keys["page_id"], post_img, imagen_url)
             print(access_token)
         # Descarga la imagen de la URL especificada
         else:
-            print(img_url)
-
-        
+            return img_url
 
     def download_image_url(self, url, filename):
         response = requests.get(url)
         with open(filename, "wb") as f:
             f.write(response.content)
         return filename
-    
 
+    def chat_gpt(self, prompt):
+        ia = OpenAIClient("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")
 
+        return ia.chatGpt(prompt)
