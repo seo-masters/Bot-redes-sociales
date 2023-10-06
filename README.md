@@ -31,13 +31,13 @@ pip install -r requirements.txt
 
 
 
-facebook_post()
+# facebook_post()
 
-Descripción:
+## Descripción:
 
 La función facebook_post() publica un mensaje en una página de Facebook.
 
-Argumentos:
+## Argumentos:
 
 page_id: El ID de la página de Facebook donde se publicará el mensaje.
 message: El mensaje que se publicará.
@@ -54,20 +54,23 @@ Si se adjunta una foto al mensaje, la función llama al método put_photo() del 
 
 Si no se adjunta una foto al mensaje, la función llama directamente al método put_object() del objeto de la API de Facebook para publicar el mensaje.
 
-Ejemplos:
+## Ejemplos:
 
 Python
-# Publica un mensaje en una página de Facebook sin foto
+
+## Publica un mensaje en una página de Facebook sin foto
+
 facebook_post(page_id="1234567890", message="Este es un mensaje.")
 
-# Publica un mensaje en una página de Facebook con una foto
+## Publica un mensaje en una página de Facebook con una foto
 facebook_post(
     page_id="1234567890",
     message="Este es un mensaje con una foto.",
     link_photo="https://example.com/imagen.png",
 )
 Use code with caution. Learn more
-Errores:
+
+## Errores:
 
 La función puede generar los siguientes errores:
 
