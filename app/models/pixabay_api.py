@@ -20,3 +20,9 @@ class PixabayAPI:
         else:
             #raise Exception(f"Error al obtener imágenes: {response.status_code}")
             return False, f"Error al obtener imágenes: {response.status_code}"
+    
+    def download_image_url(self, url, filename):
+        response = requests.get(url)
+        with open(filename, "wb") as f:
+            f.write(response.content)
+        return filename

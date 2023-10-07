@@ -2,10 +2,9 @@ import random
 import requests
 from models.facebook_api import FacebookAPI
 from models.openai_api import OpenAIClient
-from models.facebook2 import FacebookAPI2
 from models.pexels_api import PexelsAPI
 from models.api.credentials import Get_credentials
-from controller.selenium import Automate
+from controller.control_browser_facebook import Control_facebook
 from models.pixabay_api import PixabayAPI
 
 
@@ -60,11 +59,10 @@ class Controller:
         rta = facebook.authenticate_facebook()
         return rta
 
-    def prueba(self):
-        nave = Automate()
-        nave.open_broser(
-            "https://cdn.pixabay.com/photo/2023/08/13/17/54/drone-8188144_1280.jpg"
-        )
+    def madurar_perfil(self):
+        bot = Control_facebook("camilarodriguez5254@hotmail.com","C1234567R")
+        rta = bot.facebook_main()
+        return rta
 
     def get_photo_pexels(self):
         title_photo = self.ejecutar_openai_api()
@@ -96,7 +94,7 @@ class Controller:
         print(keys["name"])
 
         post_img = openai_client.chatGpt(
-            input=f"**Dame un mensaje para un post en facebook utiliza alguna de estas palabras -no mezcles todas las palabras- maximo 20 palabras: {key_word}**"
+            input=f"**Dame un mensaje para un post en facebook utiliza alguna de estas palabras -no mezcles todas las palabras- maximo 30 palabras: {key_word}**"
         )
         titulo_img = openai_client.chatGpt(
             f"Por favor, dame solo 2 palabras relacionadas: en ingles {post_img}"
@@ -104,8 +102,8 @@ class Controller:
         print(f"buscando imagenes: {titulo_img}")
         # sucess, img_url = photo.search_photo(titulo_img)
         titulo_img = titulo_img.replace("[^a-zA-Z0-9]", "").replace(",", "")
-       
-        sucess, img_url = photo2.get_images("car")
+
+        sucess, img_url = photo2.get_images(titulo_img)
         print(img_url)
 
         if sucess:

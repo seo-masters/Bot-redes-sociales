@@ -3,7 +3,7 @@ import re
 
 
 class OpenAIClient:
-    def __init__(self, api_key):
+    def __init__(self, api_key="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"):
         self.api_key = api_key
         openai.api_key = self.api_key
 

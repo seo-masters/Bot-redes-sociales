@@ -1,6 +1,5 @@
 import tkinter as tk
 from controller.main import Controller
-from controller.selenium import Automate
 
 
 class MiVentanaPrincipal(tk.Frame):
@@ -73,7 +72,8 @@ class MiVentanaPrincipal(tk.Frame):
         self.info_label['text'] = f"Rta: {rta}"
 
     def btn_selenium(self):
-        self.controlador.prueba()
+        rta = self.controlador.madurar_perfil()
+        self.info_label['text'] = f"Rta: {rta}"
 
     def btn_chat_gpt(self):
         rta = self.controlador.chat_gpt(self.text_entry.get())
