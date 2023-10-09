@@ -1,4 +1,4 @@
-# DocumentACION
+# Bot redes sociales
 
 ## requerimientos del cliente
 
@@ -11,7 +11,7 @@ https://drive.google.com/file/d/1f700Uf1ye_WzBBqrVAr3beCzPrHgrr7P/view?usp=shari
 
 
 
-# Instalación de dependencias en Python
+## Instalación de dependencias en Python
 
 Para instalar las dependencias de un proyecto Python, puedes seguir estos pasos:
 
@@ -26,7 +26,8 @@ Este comando generará un archivo llamado requirements.txt en el directorio actu
 
 Un entorno virtual es un espacio aislado en el que se pueden instalar las dependencias de un proyecto sin afectar al resto del sistema. Para crear un entorno virtual, puedes usar el comando 
 
-```python -m venv venv
+```python
+python -m venv venv
 
 Este comando creará un entorno virtual llamado venv en el directorio actual.
 
