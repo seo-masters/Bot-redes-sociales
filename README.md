@@ -1,3 +1,16 @@
+# DocumentACION
+
+## requerimientos del cliente
+
+https://docs.google.com/document/d/1463T0T5pLXejVZ6wkQjuYGzPE_cqwl9EX-rFT4jnrlk/edit?usp=sharing
+
+## diagramas
+https://drive.google.com/file/d/1f700Uf1ye_WzBBqrVAr3beCzPrHgrr7P/view?usp=sharing
+
+
+
+
+
 # Instalación de dependencias en Python
 
 Para instalar las dependencias de un proyecto Python, puedes seguir estos pasos:
@@ -5,7 +18,7 @@ Para instalar las dependencias de un proyecto Python, puedes seguir estos pasos:
 ## Generar un archivo de requisitos
 El primer paso es generar un archivo de requisitos que contenga una lista de todas las dependencias necesarias para el proyecto. Para ello, puedes usar el comando pip freeze.
 
-pip freeze > requirements.txt
+```pip freeze > requirements.txt
 
 Este comando generará un archivo llamado requirements.txt en el directorio actual. El archivo requirements.txt contendrá una lista de todas las dependencias instaladas en el proyecto, junto con sus versiones.
 
@@ -13,21 +26,19 @@ Este comando generará un archivo llamado requirements.txt en el directorio actu
 
 Un entorno virtual es un espacio aislado en el que se pueden instalar las dependencias de un proyecto sin afectar al resto del sistema. Para crear un entorno virtual, puedes usar el comando 
 
-python -m venv venv
+```python -m venv venv
 
 Este comando creará un entorno virtual llamado venv en el directorio actual.
 
 Activar el entorno virtual
 Para activar el entorno virtual, debes ejecutar el siguiente comando:
 
-.\venv\Scripts\activate
+```.\venv\Scripts\activate
 
 Instalar las dependencias
-Una vez que hayas activado el entorno virtual, puedes instalar las dependencias del proyecto con el comando pip install -r requirements.txt.
+Una vez que hayas activado el entorno virtual, puedes instalar las dependencias del proyecto con el comando 
 
-pip install -r requirements.txt
-
-
+```pip install -r requirements.txt
 
 
 

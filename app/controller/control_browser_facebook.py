@@ -4,7 +4,9 @@ import re
 import pyautogui
 from selenium.webdriver.common.by import By
 from models.pixabay_api import PixabayAPI
+
 class Control_facebook:
+
     def __init__(self, user, password):
         self.user = user
         self.password = password
@@ -42,6 +44,7 @@ class Control_facebook:
         )
 
     def publish_post(self, text_post, url_image=None):
+        """Publica un post en facebook user"""
         url = "https://www.facebook.com/"
         print(self.nave.url_actual())
 
@@ -72,6 +75,16 @@ class Control_facebook:
         pyautogui.press("enter")
 
         self.nave.click("/html/body/div[1]/div/div[1]/div/div[4]/div/div/div[1]/div/div[2]/div/div/div/form/div/div[1]/div/div/div/div[3]/div[2]")
-        #self.nave.click_css("[aria-label='Publicar']")
-        #pyautogui.press("enter")
+        self.nave.click_css("[aria-label='Publicar']")
+        pyautogui.press("enter")
 
+    def publicar_historia(self):
+        pass
+
+    
+    def comentar(self):
+        pass
+
+    def dar_like(self):
+        pass
+    
