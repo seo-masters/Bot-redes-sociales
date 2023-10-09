@@ -7,6 +7,7 @@
 ## diagramas
 - https://drive.google.com/file/d/1f700Uf1ye_WzBBqrVAr3beCzPrHgrr7P/view?usp=sharing
 
+![image](https://github.com/Azteca-Intenational-Code/Bot-redes-sociales/assets/146008355/dc889aee-f5e6-416f-8017-9269512a9498)
 
 
 
