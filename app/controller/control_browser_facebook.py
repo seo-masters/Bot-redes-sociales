@@ -4,6 +4,7 @@ import re
 import pyautogui
 from selenium.webdriver.common.by import By
 from models.pixabay_api import PixabayAPI
+import random
 
 class Control_facebook:
 
@@ -13,22 +14,26 @@ class Control_facebook:
         self.nave = Automate()
 
     def facebook_main(self):
-        self.nave.open_browser("https://es-la.facebook.com/login/")
-        self.login()
-        ia = OpenAIClient()
-        image = PixabayAPI()
-        mensaje = ia.chatGpt(
-            "Dame un mensaje para postear en mi facebook- contexto: soy una mujer joven - por favor no incluyas emojis"
-        )
-        mensaje = re.sub(
-            r"[\U0001F600-\U0001F64F\U0001F300-\U0001F5FF\U0001F680-\U0001F6FF\U0001F700-\U0001F77F\U0001F780-\U0001F7FF\U0001F800-\U0001F8FF\U0001F900-\U0001F9FF\U0001FA00-\U0001FA6F\U0001FA70-\U0001FAFF\U0001FB00-\U0001FBFF\U0001FC00-\U0001FCFF\U0001FD00-\U0001FDFF\U0001FE00-\U0001FEFF\U0001FF00-\U0001FFFF\U00002000-\U0000206F\U00002100-\U000027BF\U00002B05\U00002B06\U00002B07\U00002B1B\U00002B50\U00002B06\U000023E9\U000023F0\U00002B05\U0001F004\U0001F0CF\U00002B05\U00002B06\U00002B07\U00002B1B\U00002B50\U00002B06\U000023E9\U000023F0\U00002B05\U0001F004\U0001F0CF]+",
-            "",
-            mensaje,
-        )
-        #url_image = image.get_images("motivate")
-        self.publish_post(mensaje)
+        self.nave.open_browser("https://www.cual-es-mi-ip.net/","216.173.76.50","6677","axkdvvan","enhq0qdxswlb")
+        #self.nave.open_browser("https://es-la.facebook.com/login/")
+        # self.login()
+        # ia = OpenAIClient()
+        # image = PixabayAPI()
+        # mensaje = ia.chatGpt(
+        #     "Dame un mensaje para postear en mi facebook- contexto: soy una mujer joven - por favor no incluyas emojis",
+        #     True
+        # )
+        # #url_image = image.get_images("motivate")
+        # self.publish_post(mensaje)
+        # #self.publicar_historia(r"C:\Users\USER\Downloads\photo5.jpg")
+        # mensaje_historia = ia.chatGpt(
+        #     "Dame un mensaje para postear en una historia de facebook- contexto: soy una mujer joven - por favor no incluyas emojis - maximo 146 caracteres",
+        #     True
+        # )
+        # self.nave.time_sleep(3)
+        # self.publicar_historia(mensaje_historia)
 
-        self.nave.time_sleep(10)
+        self.nave.time_sleep(1000)
 
     def login(self):
         self.nave.write_text(
@@ -47,8 +52,6 @@ class Control_facebook:
         """Publica un post en facebook user"""
         url = "https://www.facebook.com/"
         print(self.nave.url_actual())
-
-
 
         if self.nave.url_actual() != url:
             self.nave.go_to_url(url)
@@ -78,8 +81,32 @@ class Control_facebook:
         self.nave.click_css("[aria-label='Publicar']")
         pyautogui.press("enter")
 
-    def publicar_historia(self):
-        pass
+    def publicar_historia(self, text_post=None, image_url=None):
+        """Publica un historia en facebook user"""
+        url = "https://www.facebook.com/"
+        print(self.nave.url_actual())
+        if self.nave.url_actual() != url:
+            self.nave.go_to_url(url)
+        
+        self.nave.click("/html/body/div[1]/div/div[1]/div/div[3]/div/div/div/div[1]/div[1]/div/div[2]/div/div/div/div[2]/div[1]/div/div/div[2]/div/div/div/div/div[2]/div/div/div[1]/div/a",20)
+
+        if image_url != None:
+            self.nave.click("/html/body/div[1]/div/div[1]/div/div[5]/div/div/div[3]/div[2]/div[2]/div/div/div/div/div[1]",30)
+            self.nave.time_sleep(2)
+            #Toca recortar la foto formato historia
+            pyautogui.write(r"C:\Users\USER\Downloads\photo5.jpg")
+            pyautogui.press("enter")
+            self.nave.click("/html/body/div[1]/div/div[1]/div/div[5]/div/div/div[3]/div[2]/div[1]/div/div[4]/div[2]/div")
+        else:
+            num = random.randint(1, 16)
+            self.nave.click("/html/body/div[1]/div/div[1]/div/div[5]/div/div/div[3]/div[2]/div[2]/div/div/div/div/div[2]",30)
+            self.nave.click(f"/html/body/div[1]/div/div[1]/div/div[5]/div/div/div[3]/div[2]/div[1]/div/div[3]/div[1]/div[2]/div/div[3]/div/div[3]/div[2]/div[{num}]/div/div/img")
+            #maximo 146 caracteres
+            self.nave.write_text("/html/body/div[1]/div/div[1]/div/div[5]/div/div/div[3]/div[2]/div[1]/div/div[3]/div[1]/div[2]/div/div[3]/div/div[1]/div/label/div/div/textarea", text_post)
+            self.nave.click("/html/body/div[1]/div/div[1]/div/div[5]/div/div/div[3]/div[2]/div[1]/div/div[4]/div[2]/div")
+
+
+
 
     
     def comentar(self):
@@ -87,4 +114,4 @@ class Control_facebook:
 
     def dar_like(self):
         pass
-    
+
