@@ -35,5 +35,5 @@ jobs:
       - name: Upload Executable
         uses: actions/upload-artifact@v2
         with:
-          name: app-executable
+          name: app-Bot-redes-sociales
           path: app.zip

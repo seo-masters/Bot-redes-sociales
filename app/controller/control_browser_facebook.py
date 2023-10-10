@@ -116,8 +116,13 @@ class Control_facebook:
 
 
     def revisar_notificaciones(self):
+        """abrir devolver dejar limpio scroll y abrir unas dos"""
+        pass
+
+    def responder_chat(self):
+        """Pueden ser uno o dos mensajes"""
         pass
 
     def unirse_grupos(self):
-        """Unirme a un grupo"""
+        """Unirme a un grupo palabras claves 1 6 aleatori unirme"""
         pass
