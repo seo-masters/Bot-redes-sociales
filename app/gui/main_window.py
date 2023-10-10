@@ -79,6 +79,8 @@ class MiVentanaPrincipal(tk.Frame):
         rta = self.controlador.chat_gpt(self.text_entry.get())
         self.info_label['text'] = f"Rta: {rta}"
 
+    
+
 
 
 # Ejemplo de cómo se podría ejecutar la ventana principal

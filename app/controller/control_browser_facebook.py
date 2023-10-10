@@ -14,24 +14,24 @@ class Control_facebook:
         self.nave = Automate()
 
     def facebook_main(self):
-        self.nave.open_browser("https://www.cual-es-mi-ip.net/","216.173.76.50","6677","axkdvvan","enhq0qdxswlb")
-        #self.nave.open_browser("https://es-la.facebook.com/login/")
-        # self.login()
-        # ia = OpenAIClient()
-        # image = PixabayAPI()
-        # mensaje = ia.chatGpt(
-        #     "Dame un mensaje para postear en mi facebook- contexto: soy una mujer joven - por favor no incluyas emojis",
-        #     True
-        # )
-        # #url_image = image.get_images("motivate")
-        # self.publish_post(mensaje)
-        # #self.publicar_historia(r"C:\Users\USER\Downloads\photo5.jpg")
-        # mensaje_historia = ia.chatGpt(
-        #     "Dame un mensaje para postear en una historia de facebook- contexto: soy una mujer joven - por favor no incluyas emojis - maximo 146 caracteres",
-        #     True
-        # )
-        # self.nave.time_sleep(3)
-        # self.publicar_historia(mensaje_historia)
+        #self.nave.open_browser("https://www.cual-es-mi-ip.net/","216.173.76.50","6677","axkdvvan","enhq0qdxswlb")
+        self.nave.open_browser("https://es-la.facebook.com/login/")
+        self.login()
+        ia = OpenAIClient()
+        image = PixabayAPI()
+        mensaje = ia.chatGpt(
+            "Dame un mensaje para postear en mi facebook- contexto: soy una mujer joven - por favor no incluyas emojis",
+            True
+        )
+        #url_image = image.get_images("motivate")
+        self.publish_post(mensaje)
+        #self.publicar_historia(r"C:\Users\USER\Downloads\photo5.jpg")
+        mensaje_historia = ia.chatGpt(
+            "Dame un mensaje para postear en una historia de facebook- contexto: soy una mujer joven - por favor no incluyas emojis - maximo 146 caracteres",
+            True
+        )
+        self.nave.time_sleep(3)
+        self.publicar_historia(mensaje_historia)
 
         self.nave.time_sleep(1000)
 
