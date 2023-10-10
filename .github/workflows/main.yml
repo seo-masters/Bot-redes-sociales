@@ -37,13 +37,16 @@ jobs:
           Xvfb :99 & 
           echo "DISPLAY=:99" >> $GITHUB_ENV
 
-      - name: Disable X authentication
+      - name: Create .Xauthority file
         run: |
-            Xvfb :99 -ac &
-            echo "DISPLAY=:99" >> $GITHUB_ENV
+          touch /home/runner/.Xauthority
+
+      - name: Start Xvfb
+        run: |
+          Xvfb :99 &
+          echo "DISPLAY=:99" >> $GITHUB_ENV
 
       - name: Run application
         run: |
           source .venv/bin/activate
           python app/app.py
-
