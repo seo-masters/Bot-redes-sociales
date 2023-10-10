@@ -12,7 +12,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - uses: actions/setup-python@v1
+      - uses: actions/setup-python@v2
         with:
           python-version: 3.9
 
@@ -29,7 +29,8 @@ jobs:
           python -m venv .venv
           source .venv/bin/activate
           pip install --upgrade pip
-          pip install -r requirements.txt  # Asegúrate de que esta ruta sea correcta
+          pip install -r requirements.txt
+          pip install pyinstaller
 
       - name: Set up Xvfb
         run: |
@@ -41,12 +42,19 @@ jobs:
         run: |
           touch /home/runner/.Xauthority
 
-      - name: Start Xvfb
-        run: |
-          Xvfb :99 &
-          echo "DISPLAY=:99" >> $GITHUB_ENV
-
-      - name: Run application
+      - name: Create Executable
         run: |
           source .venv/bin/activate
-          python app/app.py
+          pyinstaller --onefile app/app.py
+
+      - name: Archive Executable
+        run: |
+          tar -czvf app.tar.gz dist/
+
+      - name: Upload Executable
+        uses: actions/upload-artifact@v2
+        with:
+          name: app-executable
+          path: app.tar.gz
+
+  

@@ -1,0 +1,40 @@
+name: Build and deploy
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - uses: actions/setup-python@v2
+        with:
+          python-version: 3.9
+
+      - name: Install dependencies
+        run: |
+          python -m venv .venv
+          .venv\Scripts\Activate.ps1
+          pip install --upgrade pip
+          pip install -r requirements.txt
+          pip install pyinstaller
+
+      - name: Create Executable
+        run: |
+          .venv\Scripts\Activate.ps1
+          pyinstaller --onefile app/app.py
+
+      - name: Archive Executable
+        run: |
+          Compress-Archive -Path dist\* -DestinationPath app.zip
+
+      - name: Upload Executable
+        uses: actions/upload-artifact@v2
+        with:
+          name: app-executable
+          path: app.zip
