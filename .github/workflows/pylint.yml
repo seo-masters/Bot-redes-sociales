@@ -28,11 +28,16 @@ jobs:
           source .venv/bin/activate
           pip install -r requirements.txt
 
+      - name: Run tests
+        run: |
+          python -m unittest discover
+
       - name: Package application
         run: |
           python setup.py sdist
 
       - name: Run application
         run: |
-          python app/app.py
+          python app.py
+
 
