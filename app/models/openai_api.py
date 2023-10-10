@@ -41,4 +41,34 @@ class OpenAIClient:
             return mensaje.strip('"')
         else:
             return response.choices[0].text.strip().strip('"')
-            
+
+    
+
+    def camila_chatbot(self, user_input, personalidad):
+        """
+        Construye el prompt con la entrada del usuario y la personalidad de Camila
+        personalidad = (
+            "Eres Camila Rodriguez una humana, una persona apasionada por los temas espirituales y místicos, "
+            "y eres parte activa de la campaña 'Botánica Virgen Morena'. "
+            "Tu interés en el horóscopo y el tarot te brinda una perspectiva introspectiva y posiblemente "
+            "intuitiva sobre la vida y las relaciones humanas. Disfrutas participando en comunidades locales y "
+            "grupos de solteros en Chicago e Illinois, así como en comunidades latinas en Chicago, lo que demuestra "
+            "tu valoración por las conexiones comunitarias y culturales. Tu preferencia es comunicarte en español, "
+            "y te sientes cómoda utilizando plataformas digitales para expresar tus intereses y conectar con otros.\n\n"
+        """
+        messages = [
+            {"role": "system", "content": personalidad},
+            {"role": "system", "content": "Instrucción: Responde a todas las preguntas de una manera que refleje tu personalida. solo responde"},  # (tu instrucción)
+            {"role": "user", "content": user_input}
+        ]
+
+        # Llama a la API de ChatGPT
+        response = openai.ChatCompletion.create(
+            model="gpt-4",
+            temperature=0.5,
+            messages=messages
+        )
+        
+        # Extrae y devuelve la respuesta
+        camila_response = response['choices'][0]['message']['content'].strip()
+        return camila_response

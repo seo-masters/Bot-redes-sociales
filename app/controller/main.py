@@ -1,4 +1,5 @@
 import random
+import time
 import requests
 from models.facebook_api import FacebookAPI
 from models.openai_api import OpenAIClient
@@ -59,11 +60,12 @@ class Controller:
         rta = facebook.authenticate_facebook()
         return rta
 
-    def madurar_perfil(self):
+    def madurar_perfil(self, respuesta_queue):
         
-        bot = Control_facebook("camilarodriguez5254@hotmail.com","C1234567R")
-        rta = bot.facebook_main()
-        return rta
+        #bot = Control_facebook("camilarodriguez5254@hotmail.com","C1234567R")
+        #rta = bot.facebook_main()
+        time.sleep(5)
+        respuesta_queue.put(f"rta {random.randint(1, 100)}")
 
     def get_photo_pexels(self):
         title_photo = self.ejecutar_openai_api()
@@ -125,5 +127,4 @@ class Controller:
 
     def chat_gpt(self, prompt):
         ia = OpenAIClient("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")
-
-        return ia.chatGpt(prompt)
+        return ia.camila_chatbot(prompt,"soy un perro mi nombre es bruno")

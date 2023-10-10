@@ -1,6 +1,7 @@
 import tkinter as tk
 from controller.main import Controller
-
+import threading
+import queue
 
 class MiVentanaPrincipal(tk.Frame):
     def __init__(self, master=None):
@@ -13,18 +14,6 @@ class MiVentanaPrincipal(tk.Frame):
 
     def create_widgets(self):
         # Widgets.
-
-        # Botón "Run" para obtener información del perfil de Facebook
-        self.run_button = tk.Button(
-            self, text="Publicar post mensaje motivacional", command=self.controlador.ejecutar_facebook_api,
-        )
-        self.run_button.pack()
-
-        # Botón "Run" para obtener información del perfil de Facebook
-        self.run_button = tk.Button(
-            self, text="Run pexel", command=self.controlador.get_photo_pexels,
-        )
-        self.run_button.pack()
 
         #Btn Publicar post en pagina de facebook
         self.run_button = tk.Button(
@@ -49,6 +38,12 @@ class MiVentanaPrincipal(tk.Frame):
             self, text="GPT", command=self.btn_chat_gpt
         )
         self.run_button.pack()
+
+        #Btn ejecutar bot
+        self.btn_run_bot1 = tk.Button(
+            self, text="RUN BOT", command=self.btn_run_bot
+        )
+        self.btn_run_bot1.pack()
 
         # Caja de texto para el input
         self.text_entry = tk.Entry()
@@ -77,8 +72,32 @@ class MiVentanaPrincipal(tk.Frame):
 
     def btn_chat_gpt(self):
         rta = self.controlador.chat_gpt(self.text_entry.get())
+        print(rta)
         self.info_label['text'] = f"Rta: {rta}"
 
+    def btn_run_bot(self):
+        self.btn_run_bot1['text'] = "Ejecutando..."
+        # Crear una cola para pasar la respuesta desde el hilo de bot
+        respuesta_queue = queue.Queue()
+
+        # Crear un hilo para ejecutar la función
+        bot_thread = threading.Thread(target=lambda: self.run_bot(respuesta_queue))
+
+        # Iniciar el hilo
+        bot_thread.start()
+
+
+    def run_bot(self, respuesta_queue):
+        # Ejecutar la función en un hilo separado
+        rta = self.controlador.madurar_perfil(respuesta_queue)
+        
+        # Poner el resultado en la cola
+        respuesta_queue.put(rta)
+
+        # Hacer algo con la respuesta, por ejemplo, mostrarla en la interfaz de usuario
+        self.btn_run_bot1['text'] = "RUN"
+        respuesta = respuesta_queue.get()
+        self.info_label['text'] = f"{respuesta}"
     
 
 
