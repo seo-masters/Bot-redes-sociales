@@ -10,6 +10,8 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - uses: actions/checkout@v2  # Añadido para obtener el código fuente
+
       - uses: actions/setup-python@v1
         with:
           python-version: 3.9
@@ -26,7 +28,7 @@ jobs:
         run: |
           python -m venv .venv
           source .venv/bin/activate
-          pip install -r app/requirements.txt
+          pip install -r requirements.txt  # Ruta corregida
 
       - name: Package application
         run: |
@@ -35,5 +37,4 @@ jobs:
       - name: Run application
         run: |
           python app.py
-
 
