@@ -28,15 +28,10 @@ jobs:
         run: |
           python -m venv .venv
           source .venv/bin/activate
-          pip install -r requirements.txt
-
-      # La siguiente step ha sido comentada ya que no existe un archivo setup.py
-      #- name: Package application
-      #  run: |
-      #    python setup.py sdist
+          pip install --upgrade pip
+          pip install -r requirements.txt  # Asegúrate de que esta ruta sea correcta
 
       - name: Run application
         run: |
+          source .venv/bin/activate
           python app/app.py
-
-
