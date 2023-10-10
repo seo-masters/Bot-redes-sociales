@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v2  # Añadido para obtener el código fuente
+      - uses: actions/checkout@v2
 
       - uses: actions/setup-python@v1
         with:
@@ -28,13 +28,15 @@ jobs:
         run: |
           python -m venv .venv
           source .venv/bin/activate
-          pip install -r requirements.txt  # Ruta corregida
+          pip install -r requirements.txt
 
-      - name: Package application
-        run: |
-          python setup.py sdist
+      # La siguiente step ha sido comentada ya que no existe un archivo setup.py
+      #- name: Package application
+      #  run: |
+      #    python setup.py sdist
 
       - name: Run application
         run: |
           python app.py
+
 

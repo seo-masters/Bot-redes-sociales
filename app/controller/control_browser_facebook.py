@@ -80,6 +80,7 @@ class Control_facebook:
         self.nave.click("/html/body/div[1]/div/div[1]/div/div[4]/div/div/div[1]/div/div[2]/div/div/div/form/div/div[1]/div/div/div/div[3]/div[2]")
         self.nave.click_css("[aria-label='Publicar']")
         pyautogui.press("enter")
+        self.nave.time_sleep(5)
 
     def publicar_historia(self, text_post=None, image_url=None):
         """Publica un historia en facebook user"""
@@ -106,8 +107,6 @@ class Control_facebook:
             self.nave.click("/html/body/div[1]/div/div[1]/div/div[5]/div/div/div[3]/div[2]/div[1]/div/div[4]/div[2]/div")
 
 
-
-
     
     def comentar(self):
         pass
@@ -115,3 +114,10 @@ class Control_facebook:
     def dar_like(self):
         pass
 
+
+    def revisar_notificaciones(self):
+        pass
+
+    def unirse_grupos(self):
+        """Unirme a un grupo"""
+        pass
