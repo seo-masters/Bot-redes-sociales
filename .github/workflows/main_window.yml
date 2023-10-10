@@ -26,11 +26,11 @@ jobs:
       - name: Create Executable
         run: |
           .venv\Scripts\Activate.ps1
-          pyinstaller --onefile app/app.py
+          pyinstaller --paths app/ --paths app/controller --paths app/database --paths app/gui --paths app/models app/app.py
 
       - name: Archive Executable
         run: |
-          Compress-Archive -Path dist\* -DestinationPath app.zip
+          Compress-Archive -Path dist\app\* -DestinationPath app.zip
 
       - name: Upload Executable
         uses: actions/upload-artifact@v2
