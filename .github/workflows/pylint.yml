@@ -31,7 +31,14 @@ jobs:
           pip install --upgrade pip
           pip install -r requirements.txt  # Asegúrate de que esta ruta sea correcta
 
+      - name: Set up Xvfb
+        run: |
+          sudo apt-get install -y xvfb
+          Xvfb :99 & 
+          echo "DISPLAY=:99" >> $GITHUB_ENV
+
       - name: Run application
         run: |
           source .venv/bin/activate
           python app/app.py
+
