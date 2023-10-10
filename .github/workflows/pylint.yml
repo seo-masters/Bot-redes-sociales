@@ -37,6 +37,11 @@ jobs:
           Xvfb :99 & 
           echo "DISPLAY=:99" >> $GITHUB_ENV
 
+      - name: Disable X authentication
+        run: |
+            Xvfb :99 -ac &
+            echo "DISPLAY=:99" >> $GITHUB_ENV
+
       - name: Run application
         run: |
           source .venv/bin/activate
