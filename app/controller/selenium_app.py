@@ -8,81 +8,106 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.alert import Alert
 import controller.extension as vt
+import random
+import pyperclip
+import re
 
 
 class Automate:
-    def __init__(self):
+    def __init__(self, proxy=None, port=None, user=None, password=None):
         self.driver = None
+        self.proxy = proxy
+        self.port = port
+        self.user = user
+        self.password = password
 
-    def open_browser(
-        self, url, proxy_ip=None, proxy_port=None, username=None, password=None
-    ):
+    def open_browser(self, url, proxy=False):
         try:
             # Crear un objeto ChromeOptions
             chrome_options = webdriver.ChromeOptions()
             chrome_options.add_argument("--disable-notifications")
 
             # Si se proporcionan detalles del proxy, configurar el proxy
-            if proxy_ip and proxy_port:
+            if proxy:
                 chrome_options.add_argument(
-                    f"--proxy-server=http://{proxy_ip}:{proxy_port}"
+                    f"--proxy-server=http://{self.proxy}:{self.port}"
                 )
 
             self.driver = webdriver.Chrome(options=chrome_options)
             self.driver.get(url)
             self.driver.maximize_window()
 
-            # Si se proporcionan credenciales y una ruta de imagen, esperar la autenticación
-            if username and password:
-                # Espera hasta que el cuadro de diálogo de autenticación aparezca
-                # for _ in range(60):  # Espera hasta 60 segundos
-                #     if pyautogui.locateOnScreen("aut.png"):
-                #         break  # Si encuentra el cuadro de diálogo, sale del bucle
-                #     time.sleep(1)  # Espera 1 segundo antes de revisar de nuevo
-                self.time_sleep(4)
-                # Utilizar pyautogui para ingresar las credenciales
-                pyautogui.write(username)
+            if proxy:
+                self.time_sleep(5)
+                pyautogui.write(self.user)
                 pyautogui.press("tab")  # moverse al campo de la contraseña
-                pyautogui.write(password)
+                pyautogui.write(self.password)
                 pyautogui.press("enter")  # enviar el formulario
-
             return True
         except Exception as e:
             print(f"Error al abrir el navegador: {str(e)}")
             return False
 
     def click(self, xpath, timeX=10):
-        try:
-            # Esperar hasta que el elemento esté visible y se pueda hacer clic en él
-            element = WebDriverWait(self.driver, timeX).until(
-                EC.element_to_be_clickable((By.XPATH, xpath))
-            )
-            print(f"Se clickeo: {xpath}")
-            element.click()  # Ya que element es el objeto del elemento, puedes hacer clic directamente en él
-        except Exception as e:
-            print(f"Error al hacer clic en el elemento: {str(e)}")
+        # Esperar hasta que el elemento esté visible y se pueda hacer clic en él
+        element = WebDriverWait(self.driver, timeX).until(
+            EC.element_to_be_clickable((By.XPATH, xpath))
+        )
+        print(f"Se clickeo: {xpath}")
+        element.click()  # Ya que element es el objeto del elemento, puedes hacer clic directamente en él
 
     def click_css(self, xpath, timeX=10):
-        try:
-            WebDriverWait(self.driver, timeX).until(
-                EC.presence_of_element_located((By.CSS_SELECTOR, xpath))
-            )
-            element = self.driver.find_element(By.CSS_SELECTOR, xpath)
-            print(f"Se clickeo: {xpath}")
-            element.click()
-        except Exception as e:
-            print(f"Error al hacer clic en el elemento: {str(e)}")
+        WebDriverWait(self.driver, timeX).until(
+            EC.presence_of_element_located((By.CSS_SELECTOR, xpath))
+        )
+        element = self.driver.find_element(By.CSS_SELECTOR, xpath)
+        print(f"Se clickeo: {xpath}")
+        element.click()
 
-    def write_text(self, xpath, text, timeX=10):
-        try:
-            # Esperar hasta que el elemento esté visible
-            element = WebDriverWait(self.driver, timeX).until(
-                EC.visibility_of_element_located((By.XPATH, xpath))
-            )
-            element.clear()  # (Opcional) Limpiar cualquier texto existente en el campo antes de escribir
+    def write_text(self, xpath, text, timeX=10, rapido=False, fast_t=0.1):
+        # Esperar hasta que el elemento esté visible
+        element = WebDriverWait(self.driver, timeX).until(
+            EC.visibility_of_element_located((By.XPATH, xpath))
+        )
+
+        # Si rapido está activado, escribir el texto de una vez
+        if rapido:
             element.send_keys(text)
+        else:
+            # Escribir el texto con un retraso de 100 milisegundos entre cada carácter
+            for c in text:
+                if self.contains_non_bmp_chars(c):
+                    # Si el texto contiene caracteres fuera del BMP, copiar y pegar el texto
+                    pyperclip.copy(c)
+                    element.send_keys(Keys.CONTROL, "v")
+                else:
+                    element.send_keys(c)
+                numero_aleatorio = random.random()
+                # Convertir el número aleatorio a un número entre 0.001 y 0.9
+                numero_aleatorio = numero_aleatorio * fast_t + 0.0001
+                time.sleep(numero_aleatorio)
+    
+    def padre(self, xpath_father, xpath_hijo, texto):
+        try:
+            # Espera hasta que el elemento <span> con el texto "Empieza a escribir" esté visible
+            span_element = WebDriverWait(self.driver, 10).until(
+                EC.visibility_of_element_located((By.XPATH, xpath_father))
+            )
+
+            # Encuentra el <textarea> que está dentro del <div> padre
+            textarea_element = span_element.find_element(By.XPATH, xpath_hijo)
+
+            # Escribe texto en el <textarea>
+            textarea_element.send_keys(texto)
+            
+            # Puedes también enviar una tecla 'Enter' si es necesario
+            # textarea_element.send_keys(Keys.RETURN)
+
         except Exception as e:
-            print(f"Error al escribir en el elemento: {str(e)}")
+            print(f"Error: {str(e)}")
+
+    def contains_non_bmp_chars(self, text):
+        return bool(re.search(r"[^\x00-\xFFFF]", text))
 
     def clear_input(self, xpath):
         try:
@@ -113,7 +138,7 @@ class Automate:
     def is_visible(self, xpath):
         try:
             element = self.driver.find_element(By.XPATH, xpath)
-            return element.is_displayed()
+            return True
         except Exception as e:
             print(f"Error al verificar si el elemento es visible: {str(e)}")
             return False

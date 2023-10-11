@@ -36,4 +36,4 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: App-bot-redes-sociales
-          path: app.zip
+          path: bot-redes-sociales.zip

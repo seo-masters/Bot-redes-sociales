@@ -1,49 +1,53 @@
 import tkinter as tk
-from tkinter import ttk  # Importando ttk
-from controller.main import Controller
-import threading
+from tkinter import ttk
+from threading import Thread
 import queue
+from tkinter.scrolledtext import ScrolledText
+from controller.main import Controller
+from controller.facebook_controller import Controller_facebook
 
-class MiVentanaPrincipal(ttk.Frame):  # Cambiado tk.Frame a ttk.Frame
+class MiVentanaPrincipal(ttk.Frame):
     def __init__(self, master=None):
         super().__init__(master)
         self.master = master
-        self.pack(fill=tk.BOTH, expand=True)  # Modificado para expandir el frame
+        self.pack(fill=tk.BOTH, expand=True)
         self.controlador = Controller()
+        self.Controller_facebook = Controller_facebook()
         self.create_widgets()
+        self.proceso_queue = queue.Queue()  # Cola para procesos
 
     def create_widgets(self):
         self.info_label = ttk.Label(self, text="Información")
-        self.info_label.pack(side=tk.TOP, fill=tk.X)
+        self.info_label.pack(side=tk.TOP, fill=tk.X, padx=5, pady=5)
 
-        self.text_entry = ttk.Entry(self)
-        self.text_entry.pack(fill=tk.X, padx=5, pady=5)
+        # Crear ScrolledText widget
+        self.scroll_text_info = ScrolledText(self, wrap=tk.WORD, width=40, height=10)
+        self.scroll_text_info.pack(fill=tk.BOTH, expand=True, padx=5, pady=5)
 
-        self.btn_run_bot1 = ttk.Button(self, text="RUN BOT", command=self.btn_run_bot)  # Cambiado tk.Button a ttk.Button
-        self.btn_run_bot1.pack(side=tk.BOTTOM, anchor=tk.SE)
+        self.btn_run_bot1 = ttk.Button(self, text="RUN BOT", command=self.btn_run_bot)
+        self.btn_run_bot1.pack(side=tk.BOTTOM, anchor=tk.CENTER, padx=5, pady=5)
 
     def btn_run_bot(self):
         self.btn_run_bot1["text"] = "Ejecutando..."
-        # Crear una cola para pasar la respuesta desde el hilo de bot
-        respuesta_queue = queue.Queue()
+        proceso_thread = Thread(target=self.ejecutar_proceso)
+        proceso_thread.start()
+        self.master.after(100, self.check_queue)  # Checar la cola cada 100 ms
 
-        # Crear un hilo para ejecutar la función
-        bot_thread = threading.Thread(
-            target=lambda: self.ejecutar_proceso(respuesta_queue)
-        )
+    def ejecutar_proceso(self):
+        self.Controller_facebook.madurar_perfil(self.proceso_queue)
 
-        # Iniciar el hilo
-        bot_thread.start()
+    def check_queue(self):
+        try:
+            resultado = self.proceso_queue.get(0)
+            # Concatenar el mensaje nuevo al final del scroll_text
+            self.scroll_text_info.insert("end", f"-> {resultado} \n")
 
-    def ejecutar_proceso(self, respuesta_queue):
-        # Ejecutar la función en un hilo separado
-        rta = self.controlador.madurar_perfil(respuesta_queue)
+            # Desplazar el scroll_text hasta que el mensaje nuevo esté visible
+            self.scroll_text_info.see("end")
 
-        # Poner el resultado en la cola
-        respuesta_queue.put(rta)
+            self.btn_run_bot1["text"] = "RUN BOT"
+        except queue.Empty:
+            self.master.after(100, self.check_queue)  # Si la cola está vacía, chequear de nuevo
 
-        # Hacer algo con la respuesta, por ejemplo, mostrarla en la interfaz de usuario
-        self.btn_run_bot1["text"] = "RUN"
-        respuesta = respuesta_queue.get()
-        self.info_label["text"] = f"{respuesta}"
+
 

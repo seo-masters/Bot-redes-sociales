@@ -42,9 +42,7 @@ class OpenAIClient:
         else:
             return response.choices[0].text.strip().strip('"')
 
-    
-
-    def camila_chatbot(self, user_input, personalidad):
+    def camila_chatbot(self, user_input, personalidad, emoji=False):
         """
         Construye el prompt con la entrada del usuario y la personalidad de Camila
         personalidad = (
@@ -58,17 +56,32 @@ class OpenAIClient:
         """
         messages = [
             {"role": "system", "content": personalidad},
-            {"role": "system", "content": "Instrucción: Responde a todas las preguntas de una manera que refleje tu personalida. solo responde"},  # (tu instrucción)
-            {"role": "user", "content": user_input}
+            {
+                "role": "system",
+                "content": "Instrucción: Responde a todas las preguntas de una manera que refleje tu personalida. solo responde",
+            },  # (tu instrucción)
+            {"role": "user", "content": user_input},
         ]
 
         # Llama a la API de ChatGPT
         response = openai.ChatCompletion.create(
-            model="gpt-4",
-            temperature=0.5,
-            messages=messages
+            model="gpt-4", temperature=0.5, messages=messages
         )
-        
+
         # Extrae y devuelve la respuesta
-        camila_response = response['choices'][0]['message']['content'].strip()
-        return camila_response
+        camila_response = response["choices"][0]["message"]["content"].strip()
+
+        if emoji:
+            return camila_response.strip('"')
+        else:
+            return self.quitar_emojis(camila_response)
+
+        
+
+    def quitar_emojis(self, mensaje):
+        rta = re.sub(
+            r"[\U0001F600-\U0001F64F\U0001F300-\U0001F5FF\U0001F680-\U0001F6FF\U0001F700-\U0001F77F\U0001F780-\U0001F7FF\U0001F800-\U0001F8FF\U0001F900-\U0001F9FF\U0001FA00-\U0001FA6F\U0001FA70-\U0001FAFF\U0001FB00-\U0001FBFF\U0001FC00-\U0001FCFF\U0001FD00-\U0001FDFF\U0001FE00-\U0001FEFF\U0001FF00-\U0001FFFF\U00002000-\U0000206F\U00002100-\U000027BF\U00002B05\U00002B06\U00002B07\U00002B1B\U00002B50\U00002B06\U000023E9\U000023F0\U00002B05\U0001F004\U0001F0CF\U00002B05\U00002B06\U00002B07\U00002B1B\U00002B50\U00002B06\U000023E9\U000023F0\U00002B05\U0001F004\U0001F0CF]+",
+            "",
+            mensaje.strip(),
+        )
+        return rta.strip('"')
