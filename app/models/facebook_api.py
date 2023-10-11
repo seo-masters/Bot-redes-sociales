@@ -64,17 +64,29 @@ class FacebookAPI:
 
         PORT = 8080
         #ID de tu aplicación de Facebook
-        APP_ID = '726809776152575'
+        APP_ID = '1131611421150208'
         # Construye la URL de inicio de sesión de Facebook
-        auth_url = f'https://www.facebook.com/v10.0/dialog/oauth?client_id={APP_ID}&redirect_uri=http://localhost:{PORT}/&scope=email,user_posts,user_posts'
+        auth_url = f'https://www.facebook.com/v18.0/dialog/oauth?client_id={APP_ID}&redirect_uri=http://localhost:{PORT}/&scope=email,user_posts,user_posts'
 
         # Abre una ventana del navegador para que el usuario inicie sesión en Facebook
         webbrowser.open(auth_url)
 
     
-    def iniciar_servidor():
+    def iniciar_servidor(self):
         # Puerto para el servidor temporal
         PORT = 8080
         Handler = http.server.SimpleHTTPRequestHandler
         with socketserver.TCPServer(("", PORT), Handler) as httpd:
             httpd.serve_forever()
+
+
+    def get_facebook_code(self, client_id, client_secret):
+        app_access_token = f"{client_id}|{client_secret}"
+        try:
+            # Intenta realizar una solicitud a la API de Facebook para verificar el token
+            graph = facebook.GraphAPI(access_token=app_access_token)
+            app_info = graph.get_object('app')
+            print(f"Token OK: {app_access_token}")
+            return app_access_token
+        except facebook.GraphAPIError as e:
+            print(f"Error: {e}")

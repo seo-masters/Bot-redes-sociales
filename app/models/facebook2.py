@@ -1,26 +1,57 @@
-import facebook
-import requests
+import webbrowser
+import http.server
+import socketserver
+import threading
+from urllib.parse import urlparse, parse_qs
 
-
-
-class FacebookAPI2:
+class FacebookAPI:
     def __init__(self):
-        pass
+        self.server = None
+        self.token = None
 
-    def obtener_access_token(self):
-        app_id = 'TU_APP_ID'
-        app_secret = 'TU_APP_SECRET'
-        code = 'EL_CODIGO_DE_AUTORIZACION'
+    def authenticate_facebook(self):
+        server_thread = threading.Thread(target=self.start_server)
+        server_thread.start()
 
-        token_url = f'https://graph.facebook.com/v12.0/oauth/access_token?client_id={app_id}&client_secret={app_secret}&code={code}&grant_type=fb_exchange_token'
-        response = requests.get(token_url)
-        data = response.json()
+        PORT = 8080
+        APP_ID = '1131611421150208'
+        REDIRECT_URI = f'http://localhost:{PORT}/'
+        auth_url = f'https://www.facebook.com/v18.0/dialog/oauth?client_id={APP_ID}&redirect_uri={REDIRECT_URI}'
 
-        if 'access_token' in data:
-            long_lived_access_token = data['access_token']
-            print(f'Token de Acceso de Largo Plazo: {long_lived_access_token}')
-        else:
-            print('No se pudo obtener el Token de Acceso de Largo Plazo')
+        webbrowser.open(auth_url)
+
+    def start_server(self):
+        PORT = 8080
+        Handler = self.make_handler()
+        self.server = socketserver.TCPServer(("", PORT), Handler)
+        self.server.serve_forever()
+
+    def make_handler(self):
+        class Handler(http.server.SimpleHTTPRequestHandler):
+            def do_GET(self_):
+                nonlocal self
+                query = urlparse(self_.path).query
+                params = parse_qs(query)
+                if 'access_token' in params:
+                    self.token = params['access_token'][0]
+                    print(f'Token obtained: {self.token}')
+                    self.stop_server()  # Llama a stop_server() directamente
+                else:
+                    print('Failed to obtain token')
+
+        return Handler
+
+    def stop_server(self):
+        if self.server:
+            self.server.shutdown()
+            self.server.server_close()
+
+# Ejemplo de uso:
+if __name__ == "__main__":
+    fb_api = FacebookAPI()
+    fb_api.authenticate_facebook()
+
+
 
 
 
